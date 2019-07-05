@@ -1,0 +1,118 @@
+<h4>Formularios <small>template</small></h4>
+<hr>
+<form (ngSubmit) = "save(customForm)" #customForm = "ngForm">
+
+  <div>
+
+    <div class="form-group row" [ngClass]="{ 'has-danger': name.errors?.required || name.errors?.minlength }">
+      <label class="col-2 col-form-label">Name</label>
+      <div class="col-8">
+
+        <input class="form-control"
+               type="text"
+               placeholder="Name"
+               name = "name"
+               [(ngModel)] = "user.name"
+               required = ""
+               minlength = "5"
+               #name = "ngModel">
+
+        <div class="alert alert-danger mt-2" *ngIf="name.errors?.required">
+          Name is a required field.
+        </div>
+        <div class="alert alert-danger mt-2" *ngIf="name.errors?.minlength">
+          The min length for this field is {{name.errors.minlength.requiredLength}}.
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group row" [ngClass]="{'has-danger': lastName.errors?.required}">
+      <label class="col-2 col-form-label">Last Name</label>
+      <div class="col-8">
+
+        <input class="form-control"
+               type="text"
+               placeholder="Last Name"
+               name = "lastName"
+               [(ngModel)] = "user.lastName"
+               #lastName = "ngModel"
+               required = "">
+       <div class="alert alert-danger mt-2" *ngIf="lastName.errors?.required">
+         Last name is a required field.
+       </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="form-group row" [ngClass]="{'has-danger': emailField.errors?.pattern || emailField.errors?.required}">
+    <label class="col-2 col-form-label">E-mail</label>
+    <div class="col-md-8">
+
+      <input class="form-control"
+             type="email"
+             placeholder="Correo electrónico"
+             name = "email"
+             [(ngModel)] = "user.email"
+             pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$"
+             #emailField = "ngModel"
+             required = "">
+       <div class="alert alert-danger mt-2" *ngIf="emailField.errors?.required">
+         Email is a required field.
+       </div>
+       <div class="alert alert-danger mt-2" *ngIf="emailField.errors?.pattern">
+         A valid email is a required.
+       </div>
+    </div>
+  </div>
+
+  <div class="form-group row">
+    <label class="col-2 col-form-label">Countries</label>
+    <div class="col-md-8">
+      <select name="countries" id="" class="form-control" [(ngModel)] = "user.country">
+        <option value="">Select a country</option>
+        <option [value]="country.id" *ngFor="let country of countries">
+          {{country.name}}
+        </option>
+      </select>
+    </div>
+  </div>
+  <div class="form-group row">
+    <label class="col-2 col-form-label">Gender</label>
+    <div class="col-md-8">
+      <!--<div class="custom-control custom-radio custom-control-inline" >
+        <input type="radio"  name="customRadio" class="custom-control-input" [(ngModel)]="user.gender" [value]="gender.value">
+        <label class="custom-control-label" for="customRadioInline1"></label>
+      </div>-->
+
+      <div class="custom-control custom-control-inline custom-radio" *ngFor="let gender of genders">
+        <input type="radio" [id]="gender.value" name="customRadio" class="custom-control-input" [(ngModel)]="user.gender" [value]="gender.value">
+        <label class="custom-control-label" [for]="gender.value">{{gender.value}}</label>
+      </div>
+      <!-- [(ngModel)]="user.gender" [value]="gender.value" -->
+    </div>
+  </div>
+
+  <div class="form-group row">
+    <div class="col-md-12">
+        <div class="custom-control custom-checkbox">
+        <input type="checkbox" class="custom-control-input" id="acceptTerms" [checked] = "user.accept" [(ngModel)]="user.accept" name="acceptTerms">
+        <label class="custom-control-label" for="acceptTerms">Accept terms and conditions</label>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-group row">
+    <label class="col-2 col-form-label">&nbsp;</label>
+    <div class="input-group col-md-8">
+      <button type="submit" class="btn btn-outline-primary" >
+        Save
+      </button>
+    </div>
+  </div>
+
+</form>
+
+<pre>
+  {{ user | json }}
+</pre>

@@ -1,0 +1,123 @@
+<h4>Formulario: <small>Data</small></h4>
+<hr>
+<form [formGroup] = "currentForm" (ngSubmit) = "saveChanges()">
+
+  <div formGroupName = "fullName">
+    <div class="form-group row" [ngClass]="{'has-danger': !currentForm.get('fullName.name').valid }">
+      <label class="col-2 col-form-label">Name</label>
+      <div class="col-8">
+
+        <input class="form-control"
+               type="text"
+               placeholder="Name"
+               name = "name"
+               formControlName = "name">
+               <div class="alert alert-danger col-lg-12 mt-2" *ngIf="currentForm.get('fullName.name').errors?.minlength">
+                 The name must have at least {{currentForm.get('fullName.name').errors.minlength.requiredLength}} characters.
+               </div>
+               <div class="alert alert-danger col-lg-12 mt-2" *ngIf="currentForm.get('fullName.name').errors?.required">
+                 The name is a required field.
+               </div>
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <label class="col-2 col-form-label">Last Name</label>
+      <div class="col-8">
+
+        <input class="form-control"
+               type="text"
+               placeholder="Last Name"
+               name = "lastName"
+               formControlName = "lastName">
+         <div class="alert alert-danger col-lg-12 mt-2" *ngIf="currentForm.get('fullName.lastName').errors?.required">
+           The last name is a required field.
+         </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="form-group row">
+    <label class="col-2 col-form-label">e-Mail</label>
+    <div class="col-md-8">
+
+      <input class="form-control"
+             type="email"
+             placeholder="E-Mail"
+             name="email"
+             formControlName = "email">
+     <div class="alert alert-danger col-lg-12 mt-2" *ngIf="currentForm.get('email').errors?.pattern">
+       The last email must be valid.
+     </div>
+     <div class="alert alert-danger col-lg-12 mt-2" *ngIf="currentForm.get('email').errors?.required">
+       The email is a required field.
+     </div>
+    </div>
+  </div>
+
+  <div class="form-group row">
+    <label class="col-2 col-form-label">Password</label>
+    <div class="col-md-8">
+
+      <input class="form-control"
+             type="password"
+             placeholder="Enter your password"
+             name="password"
+             formControlName = "password">
+    </div>
+  </div>
+  <div class="form-group row">
+    <label class="col-2 col-form-label">Confirm Password</label>
+    <div class="col-md-8">
+
+      <input class="form-control"
+             type="password"
+             placeholder="Confirm your password"
+             name="checkPassword"
+             formControlName = "checkPassword">
+    </div>
+  </div>
+
+  <div class="form-group row">
+    <label class="col-2 col-form-label">User Name</label>
+    <div class="col-md-8">
+      <input class="form-control"
+             type="text"
+             placeholder="Enter your user name"
+             formControlName = "user">
+    </div>
+  </div>
+
+  <div class="form-group row">
+    <label class="col-2 col-form-label">Activities</label>
+    <div class="col-md-8" formArrayName = "activities">
+
+      <input *ngFor="let activity of currentForm.get('activities').controls; let i = index;" class="form-control"
+             type="text"
+             placeholder="Write an activity"
+             [formControlName] = "i">
+    </div>
+    <div class="col-12 text-center mt-2">
+      <button class="btn btn-primary btn-sm" type="button" (click) = "addNewActivity()">
+        Add new Activity
+      </button>
+    </div>
+  </div>
+
+
+  <div class="form-group row">
+    <label class="col-2 col-form-label">&nbsp;</label>
+    <div class="input-group col-md-8">
+      <button type="submit" class="btn btn-outline-primary">
+        Guardar
+      </button>
+    </div>
+  </div>
+
+</form>
+
+<div class="col-lg-12">
+  {{currentForm.valid}}
+  {{currentForm.status}}
+</div>
